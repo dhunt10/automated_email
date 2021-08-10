@@ -64,7 +64,7 @@ class locationManager():
         count = [1] * len(dates)
 
         df = pd.DataFrame()
-        df['Date'] = dates
+        df['Derma Drive™ Date'] = dates
         df['Location Name'] = names
         df['Appointment Count'] = count
 

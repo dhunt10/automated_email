@@ -37,7 +37,7 @@ class sendEmail:
         self.email_message = self.generateMessage(location, patient, provider, encounter,
                                                   appointment, appointment_diff,
                                                   patient_diff, available_slots, future_appointments, derma_drives)
-        self.sendEmail('darin@onspotdermatology.com')
+        self.sendEmail('don@onspotdermatology.com')
         self.s.quit()
 
     def sendEmail(self, email):
