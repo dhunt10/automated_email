@@ -53,7 +53,7 @@ class locationManager():
         locationMap = self.getLocationZips()
 
         for i in range(appts['total']):
-            if (datetime.datetime.strptime(appts['entry'][i]['resource']['start'].replace('T', ' ').split('+')[0], '%Y-%m-%d %H:%M:%S.%f') > datetime.datetime.today()):
+            if (datetime.datetime.strptime(appts['entry'][i]['resource']['start'].replace('T', ' ').split('+')[0], '%Y-%m-%d %H:%M:%S.%f') >= datetime.datetime.now()):
                 locationNames.append(locationMap[appts['entry'][i]['resource']['participant'][1]['actor']['reference'].split('/')[-1]])
                 apptDate.append(appts['entry'][i]['resource']['start'].split('T')[0])
 
@@ -64,11 +64,11 @@ class locationManager():
         count = [1] * len(dates)
 
         df = pd.DataFrame()
-        df['date'] = dates
-        df['community_name'] = names
-        df['volume'] = count
+        df['Date'] = dates
+        df['Location Name'] = names
+        df['Appointment Count'] = count
 
-        df = df.groupby(['date', 'community_name']).sum()
+        df = df.groupby(['Date', 'Location Name']).sum()
 
         df.to_csv('/Users/darinhunt/OnSpot/code/modmed/automated_email/files/file.csv')
 
@@ -84,3 +84,26 @@ class locationManager():
             location_names.append(loc)
 
         return dict(zip(location_ids, location_names))
+
+    def getTotalDrivesHistory(self):
+
+        locationMap = self.getLocationZips()
+        appts = getData('Appointment').getData()
+        places = []
+        date = []
+
+        for i in range(appts['total']):
+            if (datetime.datetime.strptime(appts['entry'][i]['resource']['start'].replace('T', ' ').split('+')[0],
+                                       '%Y-%m-%d %H:%M:%S.%f') <= datetime.datetime.today()):
+                places.append(locationMap[appts['entry'][i]['resource']['participant'][1]['actor']['reference'].split('/')[-1]])
+                date.append(appts['entry'][i]['resource']['start'].split('T')[0])
+
+        df = pd.DataFrame()
+        df['places'] = places
+        df['date'] = date
+        df = df.drop_duplicates()
+
+        return len(df)
+
+
+
