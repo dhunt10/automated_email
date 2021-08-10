@@ -68,7 +68,7 @@ class locationManager():
         df['Location Name'] = names
         df['Appointment Count'] = count
 
-        df = df.groupby(['Date', 'Location Name']).sum()
+        df = df.groupby(['Derma Drive™ Date', 'Location Name']).sum()
 
         df.to_csv('/Users/darinhunt/OnSpot/code/modmed/automated_email/files/file.csv')
 
