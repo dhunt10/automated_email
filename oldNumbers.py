@@ -11,6 +11,8 @@ class getOldNumbers:
     auth_plugin='mysql_native_password'
   )
 
+
+#todo location differences are not calculated on an individual basis for location because we do not save them into mysql
   def getLocationNumbers(self):
       mycursor = self.mydb.cursor()
       mycursor.execute('select location_total from location_count where count_id = 1')
