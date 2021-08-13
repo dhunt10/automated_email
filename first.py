@@ -5,12 +5,12 @@ from resources import resources
 
 class getData():
 
-	def __init__(self, resource):
+	def __init__(self, resource, auth):
 
-		auth = getToken()
-		self.token = auth.getToken()
-
-		if resource == resources().SLOT:
+		#auth = getToken()
+		#self.token = auth.getToken()
+		self.token = auth
+		if resource == 'Slot':
 			self.base_url = "https://stage.ema-api.com/ema-dev/firm/entpmsandbox258/ema/fhir/v2/Slot"
 			self.data = {'appointment-type':877} # will need to make more of these, for all appointment types in prod
 

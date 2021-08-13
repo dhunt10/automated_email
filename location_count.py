@@ -3,9 +3,10 @@ import pandas as pd
 import datetime
 
 class locationManager():
-    def __init__(self):
+    def __init__(self, auth):
         """
 	"""
+        self.auth = auth
 
     def getCSVData(self):
         locationNames, locationIds = self.getLocation()
@@ -23,7 +24,7 @@ class locationManager():
         location_ids = []
         location_names = []
 
-        x = getData('Location').getData()
+        x = getData('Location').getData(self.auth)
         for i in range(len(x['entry'])):
             loc = x['entry'][i]['resource']['name']
             id = x['entry'][i]['resource']['id']
@@ -33,7 +34,7 @@ class locationManager():
 
     def getLocationValues(self, locations):
         values = []
-        appts = getData('Appointment').getData()
+        appts = getData('Appointment').getData(self.auth)
         count = 0
         for i in range(len(locations)):
             for j in range(appts['total']):
@@ -48,7 +49,7 @@ class locationManager():
 
         locationNames = []
         apptDate = []
-        appts = getData('Appointment').getData()
+        appts = getData('Appointment', self.auth).getData()
         #counts = [1] * len(appts['total'])
         locationMap = self.getLocationZips()
 
@@ -76,7 +77,7 @@ class locationManager():
         location_ids = []
         location_names = []
 
-        x = getData('Location').getData()
+        x = getData('Location', self.auth).getData()
         for i in range(len(x['entry'])):
             loc = x['entry'][i]['resource']['name']
             id = x['entry'][i]['resource']['id']
@@ -88,7 +89,7 @@ class locationManager():
     def getTotalDrivesHistory(self):
 
         locationMap = self.getLocationZips()
-        appts = getData('Appointment').getData()
+        appts = getData('Appointment', self.auth).getData()
         places = []
         date = []
 

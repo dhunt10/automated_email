@@ -9,9 +9,10 @@ import os
 from counter import *
 
 class sendEmail:
-    def __init__(self, subject):
+    def __init__(self, subject, auth):
+        self.auth = auth
         self.subject = subject
-        self.lm = locationManager()
+        self.lm = locationManager(self.auth)
         self.lm.makeIndividualCSV()
         self.filename = '/Users/darinhunt/OnSpot/code/modmed/automated_email/files/file.csv'
         self.sender_email = 'dhunt10@gmail.com'
