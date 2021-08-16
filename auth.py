@@ -11,7 +11,7 @@ class getToken():
 	  		'Content-Type': 'application/x-www-form-urlencoded',
 	  		'Content-Length': '59'}
 
-		DATA = data = {'grant_type': 'password','username': 'fhir_uzaai', 'password': '5EQS71GChc'}
+		DATA = {'grant_type': 'password','username': 'fhir_uzaai', 'password': '5EQS71GChc'}
 
 		r = requests.post(url = URL, data = DATA, headers = PARAMS)
 

@@ -62,6 +62,3 @@ class getOldNumbers:
       mycursor = self.mydb.cursor()
       mycursor.execute('update appointment_count set appointment_total = {} where count_id = 1;'.format(new_value))
       self.mydb.commit()
-
-
-

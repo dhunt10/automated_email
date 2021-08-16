@@ -9,10 +9,12 @@ import os
 from counter import *
 
 class sendEmail:
-    def __init__(self, subject):
+    def __init__(self, subject, auth):
+        self.auth = auth
         self.subject = subject
-        self.lm = locationManager()
-        self.lm.makeIndividualCSV()
+        self.lm = locationManager(self.auth)
+        #self.lm.makeIndividualCSV()
+        self.lm.getNewCSVData()
         self.filename = '/Users/darinhunt/OnSpot/code/modmed/automated_email/files/file.csv'
         self.sender_email = 'dhunt10@gmail.com'
         self.password = 'Familyguy10!'
@@ -29,14 +31,14 @@ class sendEmail:
 
     def prepare_email(self, location, patient, provider, encounter,
                       appointment, appointment_diff, patient_diff,
-                      available_slots, future_appointments, derma_drives):
+                      future_appointments, derma_drives):
         """
         :param data:
         :return:
         """
         self.email_message = self.generateMessage(location, patient, provider, encounter,
                                                   appointment, appointment_diff,
-                                                  patient_diff, available_slots, future_appointments, derma_drives)
+                                                  patient_diff, future_appointments, derma_drives)
         self.sendEmail('darin@onspotdermatology.com')
         self.s.quit()
 
@@ -53,7 +55,7 @@ class sendEmail:
 
     def generateMessage(self, location, patient, provider, encounter,
                         appointment, appointment_diff, patient_diff,
-                        available_slots, future_appointments, derma_drives):
+                        future_appointments, derma_drives):
 
 
         return "Here are the updated totals: \n " \
@@ -65,8 +67,7 @@ class sendEmail:
                "Total Derma Drives: {} \n\n" \
                "Yesterday we booked {} new appointments \n" \
                "Yesterday we made {} new patients \n" \
-               "We currently have {} available appointments\n" \
                "Appointments in the future {}: \n\n" \
                "Attached is the report for individual communities\n\n".format(appointment, patient, location, provider,
                                                                 encounter, derma_drives, appointment_diff,
-                                                          patient_diff, available_slots, future_appointments)
+                                                          patient_diff, future_appointments)

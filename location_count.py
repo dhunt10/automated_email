@@ -3,9 +3,10 @@ import pandas as pd
 import datetime
 
 class locationManager():
-    def __init__(self):
+    def __init__(self, auth):
         """
 	"""
+        self.auth = auth
 
     def getCSVData(self):
         locationNames, locationIds = self.getLocation()
@@ -23,7 +24,7 @@ class locationManager():
         location_ids = []
         location_names = []
 
-        x = getData('Location').getData()
+        x = getData('Location').getData(self.auth)
         for i in range(len(x['entry'])):
             loc = x['entry'][i]['resource']['name']
             id = x['entry'][i]['resource']['id']
@@ -33,7 +34,7 @@ class locationManager():
 
     def getLocationValues(self, locations):
         values = []
-        appts = getData('Appointment').getData()
+        appts = getData('Appointment').getData(self.auth)
         count = 0
         for i in range(len(locations)):
             for j in range(appts['total']):
@@ -48,7 +49,7 @@ class locationManager():
 
         locationNames = []
         apptDate = []
-        appts = getData('Appointment').getData()
+        appts = getData('Appointment', self.auth).getData()
         #counts = [1] * len(appts['total'])
         locationMap = self.getLocationZips()
 
@@ -76,7 +77,7 @@ class locationManager():
         location_ids = []
         location_names = []
 
-        x = getData('Location').getData()
+        x = getData('Location', self.auth).getData()
         for i in range(len(x['entry'])):
             loc = x['entry'][i]['resource']['name']
             id = x['entry'][i]['resource']['id']
@@ -88,7 +89,7 @@ class locationManager():
     def getTotalDrivesHistory(self):
 
         locationMap = self.getLocationZips()
-        appts = getData('Appointment').getData()
+        appts = getData('Appointment', self.auth).getData()
         places = []
         date = []
 
@@ -104,6 +105,28 @@ class locationManager():
         df = df.drop_duplicates()
 
         return len(df)
+
+    def getNewCSVData(self):
+        locationMap = self.getLocationZips()
+        futureAppts = getData('Appointment', self.auth).getCSVData()
+
+        places = []
+        date = []
+
+        for i in range(futureAppts['total']):
+            places.append(locationMap[futureAppts['entry'][i]['resource']['participant'][1]['actor']['reference'].split('/')[-1]])
+            date.append(futureAppts['entry'][i]['resource']['start'].split('T')[0])
+
+        count = [1] * len(date)
+
+        df = pd.DataFrame()
+        df['Derma Drive™ Date'] = date
+        df['Location Name'] = places
+        df['Appointment Count'] = count
+
+        df = df.groupby(['Derma Drive™ Date', 'Location Name']).sum()
+
+        df.to_csv('/Users/darinhunt/OnSpot/code/modmed/automated_email/files/file.csv')
 
 
 
