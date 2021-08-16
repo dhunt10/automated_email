@@ -1,0 +1,10 @@
+{
+  "resourceType": "OperationOutcome",
+  "issue": [
+    {
+      "severity": "error",
+      "code": "processing",
+      "diagnostics": "Unknown resource type 'Appointment&lastUpdated' - Server knows how to handle: [Appointment, Account, Task, Organization, DiagnosticReport, AllergyIntolerance, FamilyMemberHistory, StructureDefinition, ChargeItem, Encounter, ValueSet, OperationDefinition, DocumentReference, PaymentReconciliation, InsurancePlan, Condition, Patient, Coverage, RelatedPerson, ServiceRequest, Practitioner, RequestGroup, Slot, Binary, MedicationStatement, Location]"
+    }
+  ]
+}

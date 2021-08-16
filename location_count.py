@@ -106,5 +106,27 @@ class locationManager():
 
         return len(df)
 
+    def getNewCSVData(self):
+        locationMap = self.getLocationZips()
+        futureAppts = getData('Appointment', self.auth).getCSVData()
+
+        places = []
+        date = []
+
+        for i in range(futureAppts['total']):
+            places.append(locationMap[futureAppts['entry'][i]['resource']['participant'][1]['actor']['reference'].split('/')[-1]])
+            date.append(futureAppts['entry'][i]['resource']['start'].split('T')[0])
+
+        count = [1] * len(date)
+
+        df = pd.DataFrame()
+        df['Derma Drive™ Date'] = date
+        df['Location Name'] = places
+        df['Appointment Count'] = count
+
+        df = df.groupby(['Derma Drive™ Date', 'Location Name']).sum()
+
+        df.to_csv('/Users/darinhunt/OnSpot/code/modmed/automated_email/files/file.csv')
+
 
 

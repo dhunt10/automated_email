@@ -1,6 +1,3 @@
-import json
-from first import getData
-from resources import resources
 from auth import getToken
 from counter import newNumbers
 from updateNumbers import updateNumbers
@@ -11,7 +8,7 @@ if __name__ == "__main__":
 
 	auth = getToken().getToken()
 	update = newNumbers(auth)
-	newValues = updateNumbers()
+	newValues = updateNumbers(auth)
 	email = sendEmail('Volume Report', auth)
 	encounters = update.totalEncounters()
 	total_appointments = update.totalAppointments()
@@ -19,7 +16,6 @@ if __name__ == "__main__":
 	total_patients = update.totalPatients()
 	total_providers = update.totalProviders()
 	total_encounters = update.totalEncounters()
-	available_slots = update.totalSlots()
 	future_appointments = update.totalFutureAppointments()
 	derma_drives = locationManager(auth).getTotalDrivesHistory()
 
@@ -28,9 +24,6 @@ if __name__ == "__main__":
 	new_providers = newValues.updateProviderNumbers(total_providers)
 	new_locations = newValues.updateLocationNumbers(total_locations)
 	newValues.updateEncounterNumbers(total_encounters)
-	email.prepare_email(total_locations, total_patients, total_providers,
-						total_encounters, total_appointments, new_appointments,
-						new_patients, available_slots, future_appointments, derma_drives)
 
 
 
